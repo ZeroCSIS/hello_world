@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": 0, "label": "H_0.0", "shape": "dot", "title": "H_0.0"}, {"id": 1, "label": "H_0.1", "shape": "dot", "title": "H_0.1"}, {"id": 12, "label": "H_0.2", "shape": "dot", "title": "H_0.2"}, {"id": 17, "label": "H_0.3", "shape": "dot", "title": "H_0.3"}, {"id": 18, "label": "H_0.4", "shape": "dot", "title": "H_0.4"}, {"id": 19, "label": "H_0.5", "shape": "dot", "title": "H_0.5"}, {"id": 20, "label": "H_0.6", "shape": "dot", "title": "H_0.6"}, {"id": 21, "label": "H_0.7", "shape": "dot", "title": "H_0.7"}, {"id": 22, "label": "H_0.8", "shape": "dot", "title": "H_0.8"}, {"id": 23, "label": "H_0.9", "shape": "dot", "title": "H_0.9"}, {"id": 2, "label": "H_0.10", "shape": "dot", "title": "H_0.10"}, {"id": 3, "label": "H_0.11", "shape": "dot", "title": "H_0.11"}, {"id": 4, "label": "H_0.12", "shape": "dot", "title": "H_0.12"}, {"id": 5, "label": "H_0.13", "shape": "dot", "title": "H_0.13"}, {"id": 6, "label": "H_0.14", "shape": "dot", "title": "H_0.14"}, {"id": 7, "label": "H_0.15", "shape": "dot", "title": "H_0.15"}, {"id": 8, "label": "H_0.16", "shape": "dot", "title": "H_0.16"}, {"id": 9, "label": "H_0.17", "shape": "dot", "title": "H_0.17"}, {"id": 10, "label": "H_0.18", "shape": "dot", "title": "H_0.18"}, {"id": 11, "label": "H_0.19", "shape": "dot", "title": "H_0.19"}, {"id": 13, "label": "H_0.20", "shape": "dot", "title": "H_0.20"}, {"id": 14, "label": "H_0.21", "shape": "dot", "title": "H_0.21"}, {"id": 15, "label": "H_0.22", "shape": "dot", "title": "H_0.22"}, {"id": 16, "label": "H_0.23", "shape": "dot", "title": "H_0.23"}, {"id": 137, "label": "O_0.7", "shape": "dot", "title": "O_0.7"}, {"id": 140, "label": "O_1.0", "shape": "dot", "title": "O_1.0"}, {"id": 141, "label": "O_1.1", "shape": "dot", "title": "O_1.1"}, {"id": 158, "label": "O_1.4", "shape": "dot", "title": "O_1.4"}, {"id": 159, "label": "O_1.5", "shape": "dot", "title": "O_1.5"}, {"id": 162, "label": "O_1.8", "shape": "dot", "title": "O_1.8"}, {"id": 150, "label": "O_1.18", "shape": "dot", "title": "O_1.18"}, {"id": 441, "label": "W_0.6", "shape": "dot", "title": "W_0.6"}, {"id": 442, "label": "W_0.7", "shape": "dot", "title": "W_0.7"}, {"id": 443, "label": "W_0.8", "shape": "dot", "title": "W_0.8"}, {"id": 444, "label": "W_0.9", "shape": "dot", "title": "W_0.9"}, {"id": 423, "label": "W_0.10", "shape": "dot", "title": "W_0.10"}, {"id": 424, "label": "W_0.11", "shape": "dot", "title": "W_0.11"}, {"id": 425, "label": "W_0.12", "shape": "dot", "title": "W_0.12"}, {"id": 426, "label": "W_0.13", "shape": "dot", "title": "W_0.13"}, {"id": 427, "label": "W_0.14", "shape": "dot", "title": "W_0.14"}, {"id": 428, "label": "W_0.15", "shape": "dot", "title": "W_0.15"}, {"id": 431, "label": "W_0.18", "shape": "dot", "title": "W_0.18"}, {"id": 117, "label": "O_0.1", "shape": "dot", "title": "O_0.1"}, {"id": 124, "label": "O_0.16", "shape": "dot", "title": "O_0.16"}, {"id": 125, "label": "O_0.17", "shape": "dot", "title": "O_0.17"}, {"id": 126, "label": "O_0.18", "shape": "dot", "title": "O_0.18"}, {"id": 136, "label": "O_0.6", "shape": "dot", "title": "O_0.6"}, {"id": 138, "label": "O_0.8", "shape": "dot", "title": "O_0.8"}, {"id": 139, "label": "O_0.9", "shape": "dot", "title": "O_0.9"}, {"id": 118, "label": "O_0.10", "shape": "dot", "title": "O_0.10"}, {"id": 119, "label": "O_0.11", "shape": "dot", "title": "O_0.11"}, {"id": 120, "label": "O_0.12", "shape": "dot", "title": "O_0.12"}, {"id": 121, "label": "O_0.13", "shape": "dot", "title": "O_0.13"}, {"id": 122, "label": "O_0.14", "shape": "dot", "title": "O_0.14"}, {"id": 123, "label": "O_0.15", "shape": "dot", "title": "O_0.15"}, {"id": 429, "label": "W_0.16", "shape": "dot", "title": "W_0.16"}, {"id": 430, "label": "W_0.17", "shape": "dot", "title": "W_0.17"}, {"id": 161, "label": "O_1.7", "shape": "dot", "title": "O_1.7"}, {"id": 144, "label": "O_1.12", "shape": "dot", "title": "O_1.12"}, {"id": 148, "label": "O_1.16", "shape": "dot", "title": "O_1.16"}, {"id": 152, "label": "O_1.2", "shape": "dot", "title": "O_1.2"}, {"id": 157, "label": "O_1.3", "shape": "dot", "title": "O_1.3"}, {"id": 160, "label": "O_1.6", "shape": "dot", "title": "O_1.6"}, {"id": 163, "label": "O_1.9", "shape": "dot", "title": "O_1.9"}, {"id": 142, "label": "O_1.10", "shape": "dot", "title": "O_1.10"}, {"id": 143, "label": "O_1.11", "shape": "dot", "title": "O_1.11"}, {"id": 145, "label": "O_1.13", "shape": "dot", "title": "O_1.13"}, {"id": 146, "label": "O_1.14", "shape": "dot", "title": "O_1.14"}, {"id": 147, "label": "O_1.15", "shape": "dot", "title": "O_1.15"}, {"id": 149, "label": "O_1.17", "shape": "dot", "title": "O_1.17"}, {"id": 151, "label": "O_1.19", "shape": "dot", "title": "O_1.19"}, {"id": 153, "label": "O_1.20", "shape": "dot", "title": "O_1.20"}, {"id": 154, "label": "O_1.21", "shape": "dot", "title": "O_1.21"}, {"id": 155, "label": "O_1.22", "shape": "dot", "title": "O_1.22"}, {"id": 156, "label": "O_1.23", "shape": "dot", "title": "O_1.23"}, {"id": 421, "label": "W_0.0", "shape": "dot", "title": "W_0.0"}, {"id": 422, "label": "W_0.1", "shape": "dot", "title": "W_0.1"}, {"id": 433, "label": "W_0.2", "shape": "dot", "title": "W_0.2"}, {"id": 439, "label": "W_0.4", "shape": "dot", "title": "W_0.4"}, {"id": 432, "label": "W_0.19", "shape": "dot", "title": "W_0.19"}, {"id": 434, "label": "W_0.20", "shape": "dot", "title": "W_0.20"}, {"id": 435, "label": "W_0.21", "shape": "dot", "title": "W_0.21"}, {"id": 436, "label": "W_0.22", "shape": "dot", "title": "W_0.22"}, {"id": 437, "label": "W_0.23", "shape": "dot", "title": "W_0.23"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 1, "value": 0.761904776096344}, {"arrows": "to", "from": 1, "to": 12, "value": 0.6470588445663452}, {"arrows": "to", "from": 12, "to": 17, "value": 0.8500000238418579}, {"arrows": "to", "from": 17, "to": 18, "value": 0.8636363744735718}, {"arrows": "to", "from": 18, "to": 19, "value": 0.8260869383811951}, {"arrows": "to", "from": 19, "to": 20, "value": 0.7407407164573669}, {"arrows": "to", "from": 20, "to": 21, "value": 0.5135135054588318}, {"arrows": "to", "from": 21, "to": 22, "value": 0.37142857909202576}, {"arrows": "to", "from": 22, "to": 23, "value": 0.27906978130340576}, {"arrows": "to", "from": 23, "to": 2, "value": 0.22448979318141937}, {"arrows": "to", "from": 2, "to": 3, "value": 0.2321428507566452}, {"arrows": "to", "from": 3, "to": 4, "value": 0.19354838132858276}, {"arrows": "to", "from": 4, "to": 5, "value": 0.19672131538391113}, {"arrows": "to", "from": 5, "to": 6, "value": 0.21875}, {"arrows": "to", "from": 6, "to": 7, "value": 0.20000000298023224}, {"arrows": "to", "from": 7, "to": 8, "value": 0.29032257199287415}, {"arrows": "to", "from": 8, "to": 9, "value": 0.4912280738353729}, {"arrows": "to", "from": 9, "to": 10, "value": 0.49180328845977783}, {"arrows": "to", "from": 10, "to": 11, "value": 0.7037037014961243}, {"arrows": "to", "from": 11, "to": 13, "value": 0.8095238208770752}, {"arrows": "to", "from": 13, "to": 14, "value": 0.8518518805503845}, {"arrows": "to", "from": 14, "to": 15, "value": 0.8095238208770752}, {"arrows": "to", "from": 15, "to": 16, "value": 0.6666666865348816}, {"arrows": "to", "from": 20, "to": 137, "value": 0.18918919563293457}, {"arrows": "to", "from": 0, "to": 140, "value": 0.20000000298023224}, {"arrows": "to", "from": 0, "to": 141, "value": 0.095238097012043}, {"arrows": "to", "from": 17, "to": 158, "value": 0.04545454680919647}, {"arrows": "to", "from": 18, "to": 159, "value": 0.043478261679410934}, {"arrows": "to", "from": 21, "to": 162, "value": 0.02857142873108387}, {"arrows": "to", "from": 9, "to": 150, "value": 0.016393441706895828}, {"arrows": "to", "from": 19, "to": 441, "value": 0.14814814925193787}, {"arrows": "to", "from": 20, "to": 442, "value": 0.027027027681469917}, {"arrows": "to", "from": 21, "to": 443, "value": 0.05714285746216774}, {"arrows": "to", "from": 22, "to": 444, "value": 0.13953489065170288}, {"arrows": "to", "from": 23, "to": 423, "value": 0.10204081982374191}, {"arrows": "to", "from": 2, "to": 424, "value": 0.1071428582072258}, {"arrows": "to", "from": 3, "to": 425, "value": 0.11290322244167328}, {"arrows": "to", "from": 4, "to": 426, "value": 0.06557376682758331}, {"arrows": "to", "from": 5, "to": 427, "value": 0.046875}, {"arrows": "to", "from": 6, "to": 428, "value": 0.01666666753590107}, {"arrows": "to", "from": 9, "to": 431, "value": 0.016393441706895828}, {"arrows": "to", "from": 117, "to": 12, "value": 0.05882352963089943}, {"arrows": "to", "from": 124, "to": 9, "value": 0.017543859779834747}, {"arrows": "to", "from": 125, "to": 10, "value": 0.032786883413791656}, {"arrows": "to", "from": 126, "to": 11, "value": 0.018518518656492233}, {"arrows": "to", "from": 136, "to": 137, "value": 0.10810811072587967}, {"arrows": "to", "from": 137, "to": 138, "value": 0.4000000059604645}, {"arrows": "to", "from": 138, "to": 139, "value": 0.3255814015865326}, {"arrows": "to", "from": 139, "to": 118, "value": 0.30612245202064514}, {"arrows": "to", "from": 118, "to": 119, "value": 0.2678571343421936}, {"arrows": "to", "from": 119, "to": 120, "value": 0.22580644488334656}, {"arrows": "to", "from": 120, "to": 121, "value": 0.19672131538391113}, {"arrows": "to", "from": 121, "to": 122, "value": 0.171875}, {"arrows": "to", "from": 122, "to": 123, "value": 0.1666666716337204}, {"arrows": "to", "from": 123, "to": 124, "value": 0.14516128599643707}, {"arrows": "to", "from": 124, "to": 125, "value": 0.05263157933950424}, {"arrows": "to", "from": 123, "to": 429, "value": 0.016129031777381897}, {"arrows": "to", "from": 124, "to": 430, "value": 0.05263157933950424}, {"arrows": "to", "from": 125, "to": 431, "value": 0.032786883413791656}, {"arrows": "to", "from": 140, "to": 1, "value": 0.0476190485060215}, {"arrows": "to", "from": 161, "to": 22, "value": 0.02857142873108387}, {"arrows": "to", "from": 144, "to": 5, "value": 0.016393441706895828}, {"arrows": "to", "from": 148, "to": 9, "value": 0.017543859779834747}, {"arrows": "to", "from": 140, "to": 141, "value": 0.0476190485060215}, {"arrows": "to", "from": 141, "to": 152, "value": 0.11764705926179886}, {"arrows": "to", "from": 152, "to": 157, "value": 0.10000000149011612}, {"arrows": "to", "from": 157, "to": 158, "value": 0.09090909361839294}, {"arrows": "to", "from": 158, "to": 159, "value": 0.08695652335882187}, {"arrows": "to", "from": 159, "to": 160, "value": 0.1111111119389534}, {"arrows": "to", "from": 160, "to": 161, "value": 0.054054055362939835}, {"arrows": "to", "from": 161, "to": 162, "value": 0.02857142873108387}, {"arrows": "to", "from": 162, "to": 163, "value": 0.023255813866853714}, {"arrows": "to", "from": 163, "to": 142, "value": 0.020408162847161293}, {"arrows": "to", "from": 142, "to": 143, "value": 0.01785714365541935}, {"arrows": "to", "from": 143, "to": 144, "value": 0.016129031777381897}, {"arrows": "to", "from": 144, "to": 145, "value": 0.016393441706895828}, {"arrows": "to", "from": 145, "to": 146, "value": 0.015625}, {"arrows": "to", "from": 146, "to": 147, "value": 0.01666666753590107}, {"arrows": "to", "from": 147, "to": 148, "value": 0.016129031777381897}, {"arrows": "to", "from": 148, "to": 149, "value": 0.017543859779834747}, {"arrows": "to", "from": 149, "to": 150, "value": 0.032786883413791656}, {"arrows": "to", "from": 150, "to": 151, "value": 0.0555555559694767}, {"arrows": "to", "from": 151, "to": 153, "value": 0.095238097012043}, {"arrows": "to", "from": 153, "to": 154, "value": 0.14814814925193787}, {"arrows": "to", "from": 154, "to": 155, "value": 0.1428571492433548}, {"arrows": "to", "from": 155, "to": 156, "value": 0.2222222238779068}, {"arrows": "to", "from": 161, "to": 443, "value": 0.02857142873108387}, {"arrows": "to", "from": 162, "to": 444, "value": 0.06976744532585144}, {"arrows": "to", "from": 142, "to": 424, "value": 0.01785714365541935}, {"arrows": "to", "from": 143, "to": 425, "value": 0.016129031777381897}, {"arrows": "to", "from": 149, "to": 431, "value": 0.016393441706895828}, {"arrows": "to", "from": 421, "to": 0, "value": 0.10000000149011612}, {"arrows": "to", "from": 421, "to": 1, "value": 0.0476190485060215}, {"arrows": "to", "from": 422, "to": 12, "value": 0.1764705926179886}, {"arrows": "to", "from": 433, "to": 17, "value": 0.05000000074505806}, {"arrows": "to", "from": 439, "to": 19, "value": 0.043478261679410934}, {"arrows": "to", "from": 425, "to": 5, "value": 0.016393441706895828}, {"arrows": "to", "from": 426, "to": 6, "value": 0.015625}, {"arrows": "to", "from": 427, "to": 7, "value": 0.0833333358168602}, {"arrows": "to", "from": 428, "to": 8, "value": 0.11290322244167328}, {"arrows": "to", "from": 429, "to": 9, "value": 0.07017543911933899}, {"arrows": "to", "from": 430, "to": 10, "value": 0.19672131538391113}, {"arrows": "to", "from": 431, "to": 11, "value": 0.1111111119389534}, {"arrows": "to", "from": 432, "to": 13, "value": 0.0476190485060215}, {"arrows": "to", "from": 441, "to": 137, "value": 0.0810810774564743}, {"arrows": "to", "from": 443, "to": 139, "value": 0.023255813866853714}, {"arrows": "to", "from": 429, "to": 149, "value": 0.017543859779834747}, {"arrows": "to", "from": 430, "to": 150, "value": 0.016393441706895828}, {"arrows": "to", "from": 431, "to": 151, "value": 0.018518518656492233}, {"arrows": "to", "from": 441, "to": 442, "value": 0.027027027681469917}, {"arrows": "to", "from": 442, "to": 443, "value": 0.05714285746216774}, {"arrows": "to", "from": 443, "to": 444, "value": 0.13953489065170288}, {"arrows": "to", "from": 444, "to": 423, "value": 0.3469387888908386}, {"arrows": "to", "from": 423, "to": 424, "value": 0.3571428656578064}, {"arrows": "to", "from": 424, "to": 425, "value": 0.4354838728904724}, {"arrows": "to", "from": 425, "to": 426, "value": 0.49180328845977783}, {"arrows": "to", "from": 426, "to": 427, "value": 0.53125}, {"arrows": "to", "from": 427, "to": 428, "value": 0.5166666507720947}, {"arrows": "to", "from": 428, "to": 429, "value": 0.4193548262119293}, {"arrows": "to", "from": 429, "to": 430, "value": 0.2631579041481018}, {"arrows": "to", "from": 430, "to": 431, "value": 0.14754098653793335}, {"arrows": "to", "from": 431, "to": 432, "value": 0.09259258955717087}, {"arrows": "to", "from": 432, "to": 434, "value": 0.0476190485060215}, {"arrows": "to", "from": 435, "to": 436, "value": 0.0476190485060215}, {"arrows": "to", "from": 436, "to": 437, "value": 0.1111111119389534}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
